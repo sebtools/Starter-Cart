@@ -18,7 +18,7 @@
 </tr>
 </cfoutput>
 <cfoutput query="qOrder">
-<cfif SubTotal NEQ OrderTotal>
+<cfif qOrderItems.RecordCount GT 1>
 <tr id="row-subtotal">
 	<td colspan="3" align="right">
 		Subtotal:
@@ -51,21 +51,19 @@
 	<td align="right"><div id="cart-discount"><cfif DiscountAmount>#DollarFormat(DiscountAmount)#</cfif></div></td>
 </tr>
 </cfif>
-<!---<cfif TRUE OR qOrderItems.RecordCount NEQ 1 OR SubTotal NEQ OrderTotal>--->
+<cfif TRUE OR qOrderItems.RecordCount NEQ 1 OR SubTotal NEQ OrderTotal>
 <tr id="row-total">
 	<td colspan="3" align="right">
 		Total:
 	</td>
 	<td align="right"><div id="cart-total">#DollarFormat(OrderTotal)#</div></td>
 </tr>
-<!---</cfif>--->
+</cfif>
 </cfoutput>
 </table>
 <cfif NOT isReview><div id="cart-button-update"><input type="submit" name="submit" value="Update Cart"></div></cfif>
 <cfif isReview AND NOT qOrder.isCompleted IS true>
-	<cfif sebForm.attributes.Format EQ "table"><tr><td></cfif>
-	<cf_sebField name="blah" type="custom" label=" ">
-		<p><a href="cart-items.cfm">edit</a></p>
-	</cf_sebField>
-	<cfif sebForm.attributes.Format EQ "table"></td></tr></cfif>
+	<p><a href="cart-items.cfm">edit</a></p>
 </cfif>
+
+<cfif sebForm.attributes.Format EQ "table"></td></tr></cfif>

@@ -35,7 +35,7 @@
 	
 	<cfif hasActionNotice(arguments.Action)>
 		<cftry>
-			<cfinvoke returnvariable="result" method="#method#" argumentcollection="#arguments#"></cfinvoke>
+			<cfinvoke returnvariable="result" component="#This#" method="#method#" argumentcollection="#arguments#"></cfinvoke>
 		<cfcatch>
 			<cfset result = false>
 		</cfcatch>

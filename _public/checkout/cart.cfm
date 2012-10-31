@@ -1,9 +1,7 @@
 <cfimport prefix="cart" taglib="/admin/cart/tags">
 <cf_PageController>
 
-<cf_layout title="Cart">
-	<script type="text/javascript" src="cart.js"></script>
-<cf_layout>
+<cf_Template files_js="cart.js" title="Cart">
 
 <cf_sebForm>
 	<cf_sebGroup label="Items">
@@ -16,4 +14,4 @@
 	<cf_sebField type="Submit" label="Checkout">
 </cf_sebForm>
 
-<cf_layout>
+</cf_Template>

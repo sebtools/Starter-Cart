@@ -1,6 +1,7 @@
 <cfcomponent extends="_cart" output="no">
 
 <cfset variables.oCart = getSessionCart()>
+<cfset StructAppend(Form,URL)>
 
 <cffunction name="loadData" access="public" returntype="struct" output="no">
 	

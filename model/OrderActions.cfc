@@ -42,7 +42,6 @@
 <cffunction name="saveOrderAction" access="public" returntype="numeric" output="no" hint="I return all of the OrderActions.">
 	
 	<cfset var result = saveRecord(argumentCollection=arguments)>
-	<cfset var sOrder = StructNew()>
 	
 	<cfset saveOrderInfo(argumentCollection=arguments)>
 	

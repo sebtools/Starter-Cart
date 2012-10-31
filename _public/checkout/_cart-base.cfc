@@ -8,6 +8,7 @@
 <cfset variables.Framework.Config.paramSetting("Cart_CartType","multi-page")>
 <cfset variables.steps = "cart-items.cfm,cart-addresses.cfm,cart-payment.cfm">
 <cfset variables.ShopPage = "/products/">
+<cfset variables.ShopText = "Continue Shopping">
 
 <cfset variables.oCart = getSessionCart()>
 
@@ -17,10 +18,12 @@
 	<cfset var vars = StructNew()>
 	
 	<cfset URL.id = getOrderID()>
+	<cfset vars.CustomerID = getCustomerID()>
 	
 	<cfset vars.Title = "Cart">
 	<cfset vars.currpage = ListLast(CGI.SCRIPT_NAME,"/")>
 	<cfset vars.ShopPage = variables.ShopPage>
+	<cfset vars.ShopText = variables.ShopText>
 	<cfset vars.steps = variables.steps>
 	<cfset vars.step = getStepNum(vars.currpage)>
 	<!---<cfset vars.qOrder = getOrder()>--->
@@ -52,9 +55,16 @@
 	vars.SebFormAttributes.query = "qOrder";
 	vars.SebFormAttributes.forward = getNextPage(vars.currpage);
 	
-	if ( StructKeyExists(Form,"submit") AND Form.submit EQ "Update Cart" ) {
-		vars.SebFormAttributes.forward = vars.currpage;
-		vars.SebFormAttributes.CFC_Method = "updateCart";
+	if( StructKeyExists(Form, "submit") ) {
+		if( Form.submit EQ "Update Cart" ) {
+			vars.SebFormAttributes.forward = vars.currpage;
+		}
+		if (
+				( StructKeyExists(Form, "DiscountCode") AND Len(Form.DiscountCode) )
+			OR	FindNoCase("qty_",Form.FieldNames)
+		) {
+			vars.SebFormAttributes.CFC_Method = "updateCart";
+		}
 	}
 	
 	vars.sebFields = StructNew();
@@ -269,6 +279,7 @@
 
 <cffunction name="saveAddresses" access="public" returntype="void" output="no">
 	
+	<cfset var customerid = getCustomerID()>
 	<cfset var orderid = getOrderID()>
 	<cfset var sBilling = StructNew()>
 	<cfset var sShipping = StructNew()>
@@ -301,15 +312,32 @@
 			}
 		}
 	}
+	if( customerid ) {
+		sBilling["CustomerID"] = customerid;
+		if(StructCount(sShipping)) {
+			sShipping["CustomerID"] = customerid;
+		}
+		sOrder["CustomerID"] = customerid;
+	}
+	
+	if( StructKeyExists(Arguments, "Email") AND Len(Trim(Arguments.Email)) ) {
+		sBilling["Email"] = Arguments.Email;
+	}
+	
+	if(StructKeyExists(Arguments, "Phone") AND Len(Trim(Arguments.Phone))) {
+		sBilling["Phone"] = Arguments.Phone;
+	}
+	
+	variables.oCart.setBuyer(argumentCollection=sBilling);
+	if( StructCount(sShipping) ) {
+		variables.oCart.setRecipient(argumentCollection=sShipping);
+	}
+	variables.oCart.saveOrder(argumentCollection=sOrder);
 	</cfscript>
+		
+	</cffunction>
 	
-	<cfset variables.oCart.setBuyer(argumentCollection=sBilling)>
-	<cfset variables.oCart.setRecipient(argumentCollection=sShipping)>
-	<cfset variables.oCart.saveOrder(argumentCollection=sOrder)>
-	
-</cffunction>
-
-<cffunction name="updateCart" access="public" returntype="void" output="no">
+	<cffunction name="updateCart" access="public" returntype="void" output="no">
 	
 	<cfset var qOrderItems = getOrderItems()>
 	<cfset var sQuantities = StructNew()>

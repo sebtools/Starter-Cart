@@ -7,9 +7,9 @@
 	<cf_sebField name="DiscountName">
 	<cf_sebField name="PromoCode">
 	<cf_sebField name="DiscountAmount">
+	<cf_sebField name="DiscountPercent" input_suffix="%">	
 	<cf_sebField name="DateBegin">
 	<cf_sebField name="DateEnd">
-	<!--- <cf_sebField name="DiscountPercent" input_suffix="%"> --->	
 	<!--- <cf_sebField name="Description">
 	<cf_sebField name="MinPurchaseTotal">
 	<cf_sebField name="MaxUses"> --->

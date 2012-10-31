@@ -587,7 +587,7 @@
 	<table entity="Address" labelField="Addressee">
 		<field fentity="Order" sebcolumn="false" />
 		<field fentity="Customer" />
-		<field fentity="State / Province" />
+		<field fentity="State / Province" required="true" />
 		<field name="FirstName" label="First Name" type="text" Length="60" required="true" sebcolumn="false" />
 		<field name="LastName" Label="Last Name" type="text" Length="60" required="true" sebcolumn="false" />
 		<field name="Addressee" type="relation">
@@ -626,7 +626,7 @@
 			<row CreditCardName="Discover" />
 		</data>
 	</table>
-	<table entity="Customer" Specials="CreationDate,LastUpdatedDate">
+	<table entity="Customer" Specials="CreationDate,LastUpdatedDate" onExists="update">
 		<field name="FirstName" Label="First Name" type="text" Length="60" />
 		<field name="LastName" Label="Last Name" type="text" Length="60" />
 		<field name="CustomerName" Label="Customer" type="relation">
@@ -725,6 +725,14 @@
 		<field name="Quantity" type="integer" />
 		<field name="LinkAdmin" Label="Admin Link URL" type="text" Length="240" />
 		<field name="LinkPublic" Label="Public Link URL" type="text" Length="240" />
+		<field name="isShippable" Label="Shippable?" type="boolean" default="true" />
+		<field name="CustomerID">
+			<relation
+				type="label"
+				entity="Order"
+				field="CustomerID"
+			/>
+		</field>
 	</table>
 	<table entity="Order" labelField="DatePlaced">
 		<field fentity="Customer" />
@@ -762,6 +770,22 @@
 				entity="Customer"
 				field="Email"
 				join-field="CustomerID"
+			/>
+		</field>
+		<field name="NumShippableItems">
+			<relation
+				type="count"
+				entity="Order Item"
+				field="OrderItemID"
+				join-field="OrderID"
+			>
+				<filter field="isShippable" value="true" />
+			</relation>
+		</field>
+		<field name="isShippingOrder">
+			<relation
+				type="has"
+				field="NumShippableItems"
 			/>
 		</field>
 		<field name="StatusID" Label="Status" type="relation">

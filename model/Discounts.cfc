@@ -32,6 +32,7 @@
 	
 	<cfset sDiscountInfo["DiscountID"] = 0>
 	<cfset sDiscountInfo["Amount"] = 0>
+	<cfset sDiscountInfo["DiscountCode"] = qDiscounts.PromoCode>
 	
 	<cfoutput query="qDiscounts">
 		<cfif

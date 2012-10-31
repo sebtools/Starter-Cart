@@ -1,5 +1,7 @@
 <cfcomponent displayname="Customers" extends="com.sebtools.Records" output="no">
 
+<cfset Variables.OnExists = "update">
+
 <cffunction name="getCustomers" access="public" returntype="query" output="no" hint="I return all of the Customers.">
 	<cfargument name="WithOrdersOnly" type="boolean" default="true">
 	

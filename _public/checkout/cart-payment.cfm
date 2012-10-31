@@ -1,13 +1,11 @@
 <cfimport prefix="cart" taglib="/admin/cart/tags">
 <cf_PageController>
 
-<cf_layout>
-	<script type="text/javascript" src="cart.js"></script>
-<cf_layout showTitle="true">
+<cf_Template files_js="cart.js" showTitle="true">
 
 <cart:step>
 
-<cf_sebForm>
+<cf_sebForm showReqMarkHint="true">
 	<cart:items isReview="true">
 	<cart:addresses isReview="true">
 	<cart:payment>
@@ -16,4 +14,4 @@
 
 <cart:step>
 
-<cf_layout>
+</cf_Template>
