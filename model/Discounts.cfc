@@ -2,8 +2,6 @@
 
 <cffunction name="getActiveDiscounts" access="public" returntype="query" output="no" hint="I return the active Discounts.">
 	
-	<cfset var aFilters = ArrayNew(1)>
-	
 	<cfreturn variables.Manager.getRecords(tablename=variables.table,data=arguments)>
 </cffunction>
 
@@ -14,8 +12,8 @@
 	<cfset var qDiscount = 0>
 	<cfset var result = 0>
 	
-	<cfif isNumeric(arguments.DiscountID) AND arguments.DiscountID GT 0>
-		<cfset qDiscount = getDiscount(DiscountID=arguments.DiscountID,fieldlist="DiscountID,DiscountAmount,DiscountPercent")>
+	<cfif Val(arguments.DiscountID) GT 0>
+		<cfset qDiscount = getDiscount(DiscountID=Arguments.DiscountID,fieldlist="DiscountID,DiscountAmount,DiscountPercent")>
 		<cfset result = calcDiscount(arguments.OrderTotal,Val(qDiscount.DiscountAmount),Val(qDiscount.DiscountPercent))>
 	</cfif>
 	
