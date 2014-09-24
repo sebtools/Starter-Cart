@@ -268,7 +268,7 @@
 	
 	<cfinvoke component="#variables.oCart#" method="processPayment">
 		<!---<cfinvokeargument name="OrderID" value="#getOrderID()#">--->
-		<cfinvokeargument name="CreditCardID" value="#arguments.CreditCardID#">
+		<cfinvokeargument name="CreditCardID" value="#Val(arguments.CreditCardID)#">
 		<cfinvokeargument name="cc" value="#arguments.ccnum#">
 		<cfinvokeargument name="ccv" value="#arguments.ccv#">
 		<cfinvokeargument name="year" value="#arguments.ccexpyear#">
